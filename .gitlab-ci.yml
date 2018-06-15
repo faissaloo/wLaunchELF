@@ -1,0 +1,13 @@
+image: registry.gitlab.com/ps2max/ps2dev-scripts:ps2max
+
+stages:
+  - build
+
+build:
+  stage: build
+  script:
+    - apk add --no-cache ucl-dev
+    - make clean all
+  artifacts:
+    paths:
+    - ./*.ELF
