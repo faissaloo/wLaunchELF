@@ -36,9 +36,9 @@ $(EE_BIN_PKD): $(EE_BIN)
 	ps2-packer $< $@
 
 run: $(EE_BIN)
-	ps2client -h 192.168.0.10 -t 1 execee host:$(EE_BIN)
+	ps2client -h 192.168.1.10 -t 1 execee host:$(EE_BIN)
 reset: clean
-	ps2client -h 192.168.0.10 reset
+	ps2client -h 192.168.1.10 reset
 
 sim: $(EE_BIN)
 	PCSX2 --elf=$(PWD)/$(EE_BIN) --nodisc --nogui
