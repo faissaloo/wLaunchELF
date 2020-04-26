@@ -40,6 +40,9 @@ run: all
 reset: clean
 	ps2client -h 192.168.0.10 reset
 
+sim: all
+	PCSX2 --elf=$(PWD)/$(EE_BIN) --nodisc --nogui
+
 format:
 	find . -type f -a \( -iname \*.h -o -iname \*.c \) | xargs clang-format -i
 
