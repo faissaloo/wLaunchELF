@@ -311,6 +311,8 @@ static void Show_About_uLE(void)
 			PrintPos(-1, hpos, "  Polo35, radad, Drakonite, sincro");
 			PrintPos(-1, hpos, "  kthu, Slam-Tilt, chip, pixel, Hermes");
 			PrintPos(-1, hpos, "  and others in the PS2Dev community");
+			PrintPos(-1, hpos, "Autostart:");
+			PrintPos(-1, hpos, "  Faissaloo");
 			PrintPos(-1, hpos, "");
 			PrintPos(-1, hpos, "Main release site:");
 			PrintPos(-1, hpos, "  \"https://github.com/ps2homebrew/wLaunchELF/releases\"");
@@ -819,6 +821,8 @@ static void ShowDebugInfo(void)
 				sprintf(TextRow, "argv[%d] == \"%s\"", i, boot_argv[i]);
 				PrintRow(-1, TextRow);
 			}
+			sprintf(TextRow, "setting->autostart_elf == \"%s\"", setting->autostart_elf);
+			PrintRow(-1, TextRow);
 			sprintf(TextRow, "boot_path == \"%s\"", boot_path);
 			PrintRow(-1, TextRow);
 			sprintf(TextRow, "LaunchElfDir == \"%s\"", LaunchElfDir);
@@ -2279,9 +2283,18 @@ int main(int argc, char *argv[])
 	//But before we start that, we need to validate CNF_Path
 	Validate_CNF_Path();
 
-	RunPath[0] = 0;  //Nothing to run yet
-	cdmode = -1;     //flag unchecked cdmode state
-	event = 1;       //event = initial entry
+	reloadConfig();  //in case there's secondary config on the USB or some other device
+
+	RunPath[0] = '\0';  //Nothing to run yet
+	cdmode = -1;        //flag unchecked cdmode state
+
+	//if an autostart has been set, load it
+	//TODO: actually verify that this is an ELF before trying to start it
+	if (strlen(setting->autostart_elf) != 0) {
+		Execute(setting->autostart_elf);
+	}
+
+	event = 1;  //event = initial entry
 	//----- Start of main menu event loop -----
 	while (1) {
 		int DiscType_ix;
@@ -2431,7 +2444,7 @@ int main(int argc, char *argv[])
 			user_acted = 1;
 			mode = BUTTON;
 			Execute(RunPath);
-			RunPath[0] = 0;
+			RunPath[0] = '\0';
 			if (setting->GUI_skin[0]) {
 				GUI_active = 1;
 				loadSkin(BACKGROUND_PIC, 0, 0);

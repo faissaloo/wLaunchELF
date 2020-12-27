@@ -1,7 +1,7 @@
 #ifndef LAUNCHELF_H
 #define LAUNCHELF_H
 
-#define ULE_VERSION "v4.43a"
+#define ULE_VERSION "v4.43a+autoboot"
 //#ifndef ULE_VERDATE
 //#define ULE_VERDATE __DATE__
 //#endif
@@ -167,6 +167,7 @@ typedef struct
 	char Menu_Title[MAX_MENU_TITLE + 1];
 	char lang_file[MAX_PATH];
 	char font_file[MAX_PATH];
+	char autostart_elf[MAX_PATH];
 	int Menu_Frame;
 	int Show_Menu;
 	int timeout;

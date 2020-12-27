@@ -486,6 +486,7 @@ void saveConfig(char *mainMsg, char *CNF)
 	        "USBMASS_FILE = %s\r\n"
 	        "LANG_FILE = %s\r\n"
 	        "FONT_FILE = %s\r\n"
+	        "AUTOSTART_ELF = %s\r\n"
 	        "JpgView_Timer = %d\r\n"
 	        "JpgView_Trans = %d\r\n"
 	        "JpgView_Full = %d\r\n"
@@ -511,6 +512,7 @@ void saveConfig(char *mainMsg, char *CNF)
 	        setting->usbmass_file,     //USBMASS_FILE
 	        setting->lang_file,        //LANG_FILE
 	        setting->font_file,        //FONT_FILE
+	        setting->autostart_elf,    //AUTOSTART_ELF
 	        setting->JpgView_Timer,    //JpgView_Timer
 	        setting->JpgView_Trans,    //JpgView_Trans
 	        setting->JpgView_Full,     //JpgView_Full
@@ -653,6 +655,7 @@ void initConfig(void)
 	setting->CNF_Path[0] = '\0';
 	setting->lang_file[0] = '\0';
 	setting->font_file[0] = '\0';
+	setting->autostart_elf[0] = '\0';  //autostart, default
 	setting->timeout = DEF_TIMEOUT;
 	setting->Hide_Paths = DEF_HIDE_PATHS;
 	setting->color[COLOR_BACKGR] = DEF_COLOR1;
@@ -853,6 +856,8 @@ int loadConfig(char *mainMsg, char *CNF)
 			strcpy(setting->lang_file, value);
 		else if (!strcmp(name, "FONT_FILE"))
 			strcpy(setting->font_file, value);
+		else if (!strcmp(name, "AUTOSTART_ELF"))
+			strcpy(setting->autostart_elf, value);
 		//----------
 		else if (!strcmp(name, "JpgView_Timer"))
 			setting->JpgView_Timer = atoi(value);
