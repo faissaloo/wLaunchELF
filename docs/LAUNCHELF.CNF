@@ -297,7 +297,8 @@ LANG_FILE =
 FONT_FILE =
 # ----------------------------------------------------------------------
 # Use uLaunchELF as an application loader, useful for things like
-# FreeDVDBoot
+# FreeDVDBoot. This autostart process can be cancelled by controller
+# input during the startup process.
 # ----------------------------------------------------------------------
 AUTOSTART_ELF =
 # ----------------------------------------------------------------------

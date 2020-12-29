@@ -1,7 +1,7 @@
 #ifndef LAUNCHELF_H
 #define LAUNCHELF_H
 
-#define ULE_VERSION "v4.43a+autoboot"
+#define ULE_VERSION "v4.43a+autostart"
 //#ifndef ULE_VERDATE
 //#define ULE_VERDATE __DATE__
 //#endif

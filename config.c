@@ -726,20 +726,24 @@ int loadConfig(char *mainMsg, char *CNF)
 		strcpy(strtmp, path);
 		strcpy(strtmp + pos - 9, "LNCHELF");   //Replace LAUNCHELF with LNCHELF (for CD)
 		strcpy(strtmp + pos - 2, path + pos);  //Add index+extension too
-		if ((tst = genFixPath(strtmp, cnf_path)) >= 0)
+		if ((tst = genFixPath(strtmp, cnf_path)) >= 0) {
 			fd = genOpen(cnf_path, O_RDONLY);
+		}
+
 		if (fd < 0) {
-			if (!strncmp(LaunchElfDir, "mc", 2))
+			if (!strncmp(LaunchElfDir, "mc", 2)) {
 				mcport = LaunchElfDir[2] - '0';
-			else
+			} else {
 				mcport = CheckMC();
+			}
 			if (mcport == 1 || mcport == 0) {
 				sprintf(strtmp, "mc%d:/SYS-CONF/", mcport);
 				strcpy(cnf_path, strtmp);
 				strcat(cnf_path, CNF);
 				fd = genOpen(cnf_path, O_RDONLY);
-				if (fd >= 0)
+				if (fd >= 0) {
 					strcpy(LaunchElfDir, strtmp);
+				}
 			}
 		}
 	}

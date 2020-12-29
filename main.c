@@ -2160,8 +2160,11 @@ int main(int argc, char *argv[])
 	Reset();
 	Init_Default_Language();
 
-	LaunchElfDir[0] = 0;
-	boot_path[0] = 0;
+	LaunchElfDir[0] = '\0';
+	boot_path[0] = '\0';
+
+	strcpy(LaunchElfDir, "cdfs:/");  //Always default to the elf directory being on the cdvd
+
 	if ((argc > 0) && argv[0]) {
 		strcpy(LaunchElfDir, argv[0]);  //Default LaunchElfDir to the boot path.
 		strcpy(boot_path, argv[0]);
@@ -2181,7 +2184,6 @@ int main(int argc, char *argv[])
 			boot = BOOT_DEVICE_MC;
 		else if (!strncmp(argv[0], "cd", 2)) {
 			boot = BOOT_DEVICE_CDVD;
-			strcpy(LaunchElfDir, "mc0:/SYS-CONF/");  //Default to mc0 as a writable location.
 		} else if (!strncmp(argv[0], "hdd", 3)) {
 			//Booting from the HDD requires special handling for HDD-based paths.
 			char temp[MAX_PATH];
@@ -2283,18 +2285,20 @@ int main(int argc, char *argv[])
 	//But before we start that, we need to validate CNF_Path
 	Validate_CNF_Path();
 
-	reloadConfig();  //in case there's secondary config on the USB or some other device
+	reloadConfig();  //in case there's secondary config on the USB or some other device that needed drivers
 
 	RunPath[0] = '\0';  //Nothing to run yet
 	cdmode = -1;        //flag unchecked cdmode state
 
-	//if an autostart has been set, load it
-	//TODO: actually verify that this is an ELF before trying to start it
+	event = 1;  //event = initial entry
+
+	//if an autostart has been set load the elf
 	if (strlen(setting->autostart_elf) != 0) {
-		Execute(setting->autostart_elf);
+		strcpy(RunPath, setting->autostart_elf);  //we copy to the runpath for error reporting in case this fails
+		Execute(RunPath);
+		RunPath[0] = '\0';
 	}
 
-	event = 1;  //event = initial entry
 	//----- Start of main menu event loop -----
 	while (1) {
 		int DiscType_ix;
